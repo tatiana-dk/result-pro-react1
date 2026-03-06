@@ -1,19 +1,39 @@
-import { useRef } from "react";
+import { useMemo, useRef, useState } from "react";
 
-export function useFetch() {
+export function useFetch(url) {
+    const [data, setData] = useState(null);
 
-    const data = useRef();
+    const [fetchFlag, setFetchFlag] = useState(true);
 
     const isLoading = useRef(false);
 
     const error = useRef('');
 
-    function refetch() {}
+    useMemo(() => {
+        if (isLoading.current) return;
+        
+        (async () => {
+            try {
+                isLoading.current = true;
+                const response = await fetch(url);
+                const result = await response.json();
+                setData(result);
+            } catch(err) {
+                error.current = err;
+            } finally {
+                isLoading.current = false;
+            }
+        })();
+    }, [fetchFlag]);
+
+    function refetch() {
+        setFetchFlag(!fetchFlag);
+    }
 
     return {
         data,
-        isLoading,
-        error,
+        isLoading: isLoading.current,
+        error: error.current,
         refetch
     }
 }
