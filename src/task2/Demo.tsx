@@ -1,6 +1,6 @@
 import { useLocalStorage } from "./useLocalStorage";
 
-export function Demo() {
+export function Task2Demo() {
     const [value, { setItem, removeItem }] = useLocalStorage('some-key');
 
   return (
