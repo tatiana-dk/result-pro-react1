@@ -1,4 +1,4 @@
-import { Demo } from "./Demo"
+import { Demo } from "./task1/Demo"
 
 function App() {
 
